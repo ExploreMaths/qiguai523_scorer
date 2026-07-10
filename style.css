@@ -1,0 +1,679 @@
+:root {
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #eff6ff;
+    --success: #10b981;
+    --success-bg: #d1fae5;
+    --success-text: #065f46;
+    --error: #ef4444;
+    --error-bg: #fee2e2;
+    --error-text: #991b1b;
+    --warning: #f59e0b;
+    --warning-bg: #fffbeb;
+    --warning-text: #92400e;
+    --radius: 8px;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+}
+
+@font-face {
+    font-family: "AppFont";
+    src: url("LMROMAN12-REGULAR.OTF") format("opentype"),
+         local("CMU Roman"), local("CMU Serif"), local("CMU Serif Roman"),
+         local("CMU Concrete"), local("Computer Modern"),
+         local("Latin Modern Roman"), local("Latin Modern Math"),
+         local("Latin Modern");
+    font-weight: 100 900;
+    font-style: normal;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                   U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+                   U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "AppFont", "STZhongsong", "华文中宋", "SimSun", "Songti SC", "Times New Roman", serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.app {
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.round-badge {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--primary);
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 按钮 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-outline {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+    background: var(--bg);
+}
+
+.btn-outline:disabled {
+    color: var(--text-secondary);
+    background: var(--bg);
+    cursor: not-allowed;
+}
+
+.btn-sm {
+    padding: 8px 14px;
+    font-size: 13px;
+}
+
+.btn-danger-outline {
+    background: var(--card);
+    color: var(--error);
+    border: 1px solid var(--border);
+}
+
+.btn-danger-outline:hover {
+    background: var(--error-bg);
+}
+
+.btn-bomb {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+    border: 1px solid #fcd34d;
+    flex: 1;
+    min-width: 90px;
+}
+
+.btn-bomb:hover {
+    background: #fef3c7;
+}
+
+.btn-add {
+    width: 100%;
+    border-style: dashed;
+    border-color: var(--primary);
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.btn-add:hover {
+    background: var(--primary-light);
+}
+
+/* 设置玩家 */
+.setup-card {
+    max-width: 480px;
+    margin: 80px auto 0;
+    text-align: center;
+}
+
+.setup-card h1 {
+    margin: 0 0 8px;
+    font-size: 26px;
+}
+
+.hint {
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+    font-size: 14px;
+}
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.player-row {
+    display: flex;
+    gap: 10px;
+}
+
+.player-row input {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.player-row input:focus {
+    border-color: var(--primary);
+    border-width: 2px;
+    padding: 11px 13px;
+}
+
+.player-row .btn {
+    padding: 10px 14px;
+    flex-shrink: 0;
+}
+
+/* 固定组合 */
+.preset-section {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.preset-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.preset-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.preset-empty {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.preset-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.preset-chip:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.preset-chip.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.preset-chip .default-mark {
+    font-size: 11px;
+    color: var(--warning);
+}
+
+.preset-actions {
+    display: none;
+    gap: 4px;
+    margin-left: 4px;
+}
+
+.preset-chip:hover .preset-actions {
+    display: inline-flex;
+}
+
+.preset-actions button {
+    background: none;
+    border: none;
+    padding: 2px 4px;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    border-radius: 4px;
+}
+
+.preset-actions button:hover {
+    background: var(--border);
+}
+
+.preset-add {
+    display: flex;
+    gap: 8px;
+}
+
+.preset-add input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.preset-add input:focus {
+    border-color: var(--primary);
+}
+
+.preset-add .btn {
+    padding: 10px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+/* 计分表格 */
+.score-table {
+    overflow-x: auto;
+}
+
+.score-table-inner {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 12px 12px;
+    min-width: 500px;
+}
+
+.score-table-inner th,
+.score-table-inner td {
+    padding: 0;
+    vertical-align: middle;
+}
+
+.score-th-empty,
+.score-td-label {
+    width: 90px;
+}
+
+.score-th-player,
+.score-td-input,
+.score-td-final,
+.score-th-multiplier,
+.score-td-multiplier {
+    width: calc((100% - 90px) / 5);
+}
+
+.score-th-player {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+.score-th-multiplier {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+.score-td-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.score-td-multiplier {
+    border-left: 1px solid var(--border);
+}
+
+.score-input {
+    width: 100%;
+    padding: 14px 8px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    outline: none;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+
+.score-input:focus {
+    border-color: var(--primary);
+    background: var(--card);
+    border-width: 2px;
+    padding: 13px 7px;
+}
+
+.score-final {
+    padding: 14px 8px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: var(--radius);
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-final.positive {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.score-final.negative {
+    background: var(--error-bg);
+    color: var(--error-text);
+}
+
+.score-final.zero {
+    background: var(--bg);
+    color: var(--text-secondary);
+}
+
+.multiplier-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px;
+    height: 100%;
+    min-height: 120px;
+}
+
+.multiplier-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+.multiplier-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* 炸弹区 */
+.bomb-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.bomb-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* 合计 */
+.total-card {
+    text-align: center;
+    font-size: 18px;
+    color: var(--text);
+}
+
+.total-card strong {
+    font-size: 22px;
+    margin-left: 8px;
+}
+
+/* 操作区 */
+.actions-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nav-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* 汇总表 */
+.summary-card {
+    overflow-x: auto;
+    padding: 0;
+}
+
+.summary-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    min-width: 600px;
+    font-size: 15px;
+    background: white;
+}
+
+.summary-table th,
+.summary-table td {
+    border: 1px solid var(--border);
+    padding: 12px 6px;
+    text-align: center;
+    background: white;
+}
+
+.summary-table th {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.summary-table th:first-child,
+.summary-table td:first-child {
+    width: 48px;
+}
+
+.summary-table th:nth-child(2),
+.summary-table td:nth-child(2) {
+    width: 90px;
+}
+
+.summary-table .round-cell {
+    font-size: 18px;
+    font-weight: 700;
+    color: #b45309;
+}
+
+.summary-table .row-label {
+    font-weight: 500;
+    color: #64748b;
+}
+
+.summary-table .final-cell {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.summary-table .final-cell.positive {
+    color: #047857;
+}
+
+.summary-table .final-cell.negative {
+    color: #b91c1c;
+}
+
+.summary-table .final-cell.zero {
+    color: #64748b;
+}
+
+.summary-table .multiplier-cell {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1d4ed8;
+    white-space: nowrap;
+}
+
+.summary-table .total-row td {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.summary-table .total-row .total-sum {
+    font-size: 18px;
+}
+
+@media (max-width: 640px) {
+    .app {
+        padding: 16px;
+    }
+
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .app-header h1 {
+        font-size: 22px;
+    }
+
+    .score-table-inner {
+        border-spacing: 8px 8px;
+        min-width: 400px;
+    }
+
+    .score-th-empty,
+    .score-td-label {
+        width: 70px;
+    }
+
+    .score-th-player,
+    .score-td-input,
+    .score-td-final,
+    .score-th-multiplier,
+    .score-td-multiplier {
+        width: calc((100% - 70px) / 5);
+    }
+
+    .multiplier-value {
+        font-size: 18px;
+    }
+
+    .score-input,
+    .score-final {
+        padding: 10px 4px;
+        font-size: 15px;
+    }
+}
+
+/* 弹窗 */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 420px;
+    width: 100%;
+    padding: 24px;
+    text-align: center;
+}
+
+.modal-message {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.modal-actions .btn {
+    min-width: 90px;
+}
