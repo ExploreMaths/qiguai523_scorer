@@ -571,20 +571,28 @@ function exportExcel() {
     const wb = XLSX.utils.book_new();
     const data = [];
     const merges = [];
-    const colCount = 3 + players.length; // round label + row label + players + multiplier
+    const colCount = 3 + players.length;
 
-    const baseFont = { name: "华文中宋, CMU Roman", sz: 11 };
-    const headerFont = { name: "华文中宋, CMU Roman", sz: 11, bold: true, color: { rgb: "1E293B" } };
-    const roundFont = { name: "华文中宋, CMU Roman", sz: 12, bold: true, color: { rgb: "B45309" } };
-    const labelFont = { name: "华文中宋, CMU Roman", sz: 11, color: { rgb: "64748B" } };
-    const mulFont = { name: "华文中宋, CMU Roman", sz: 12, bold: true, color: { rgb: "1D4ED8" } };
-    const totalFont = { name: "华文中宋, CMU Roman", sz: 12, bold: true, color: { rgb: "1E293B" } };
+    const FONT_CN = "华文中宋";
+    const FONT_EN = "CMU Roman";
+    const font = (sz, bold, color) => ({
+        name: `${FONT_CN}, ${FONT_EN}`,
+        sz,
+        bold: !!bold,
+        color: color ? { rgb: color } : undefined,
+    });
 
-    const whiteFill = { patternType: "solid", fgColor: { rgb: "FFFFFF" } };
+    const align = { horizontal: "center", vertical: "center", wrapText: false };
+    const cellStyle = (f) => ({ font: f, alignment: align });
 
-    function cellStyle(font) {
-        return { font, fill: whiteFill, alignment: { horizontal: "center", vertical: "center" } };
-    }
+    const headerFont = font(15, true, "1E293B");
+    const roundFont = font(18, true, "B45309");
+    const labelFont = font(15, false, "64748B");
+    const scoreFont = font(15, false, "1E293B");
+    const finalFont = (val) => font(16, true, val > 0 ? "047857" : val < 0 ? "B91C1C" : "64748B");
+    const mulFont = font(18, true, "1D4ED8");
+    const totalLabelFont = font(18, true, "1E293B");
+    const totalValueFont = font(16, true, "1E293B");
 
     // Header
     const headerRow = ["", "", ...players, "倍数"];
@@ -593,7 +601,7 @@ function exportExcel() {
     // Rounds
     rounds.forEach((rd, i) => {
         const baseRow = data.length;
-        const row1 = [i + 1, "原分数", ...rd.scores, rd.multiplier];
+        const row1 = [i + 1, "原分数", ...rd.scores, `×${rd.multiplier}`];
         data.push(row1);
         merges.push({ s: { r: baseRow, c: 0 }, e: { r: baseRow + 1, c: 0 } });
         merges.push({ s: { r: baseRow, c: colCount - 1 }, e: { r: baseRow + 1, c: colCount - 1 } });
@@ -614,40 +622,46 @@ function exportExcel() {
     const ws = XLSX.utils.aoa_to_sheet(data);
     ws["!merges"] = merges;
 
-    // Column widths
-    const colWidths = [{ wch: 6 }, { wch: 12 }];
-    players.forEach(() => colWidths.push({ wch: 14 }));
+    // Column widths (approximate px / 7)
+    const colWidths = [{ wch: 7 }, { wch: 13 }];
+    players.forEach(() => colWidths.push({ wch: 16 }));
     colWidths.push({ wch: 12 });
     ws["!cols"] = colWidths;
+
+    // Row heights (approximate px * 0.75)
+    const rowHeights = [{ hpt: 33 }];
+    for (let i = 0; i < rounds.length * 2; i++) {
+        rowHeights.push({ hpt: 33 });
+    }
+    rowHeights.push({ hpt: 33 });
+    ws["!rows"] = rowHeights;
 
     // Apply styles
     for (let r = 0; r < data.length; r++) {
         for (let c = 0; c < colCount; c++) {
             const cellRef = XLSX.utils.encode_cell({ r, c });
             if (!ws[cellRef]) ws[cellRef] = { v: "" };
-            ws[cellRef].s = cellStyle(baseFont);
 
             if (r === 0) {
                 ws[cellRef].s = cellStyle(headerFont);
             } else if (c === 0) {
-                // round number or total label
                 const isTotal = ws[cellRef].v === "总计";
-                ws[cellRef].s = cellStyle(isTotal ? totalFont : roundFont);
+                ws[cellRef].s = cellStyle(isTotal ? totalLabelFont : roundFont);
             } else if (c === 1) {
                 ws[cellRef].s = cellStyle(labelFont);
             } else if (c === colCount - 1) {
                 ws[cellRef].s = cellStyle(mulFont);
             } else {
-                // player columns
                 const val = ws[cellRef].v;
-                if (typeof val === "number") {
-                    const color = val > 0 ? "047857" : val < 0 ? "B91C1C" : "64748B";
-                    ws[cellRef].s = cellStyle({
-                        name: "华文中宋, CMU Roman",
-                        sz: 11,
-                        bold: true,
-                        color: { rgb: color },
-                    });
+                const isTotalRow = r === data.length - 1;
+                if (isTotalRow) {
+                    ws[cellRef].s = cellStyle(totalValueFont);
+                } else if (r % 2 === 0) {
+                    // 原分数行
+                    ws[cellRef].s = cellStyle(scoreFont);
+                } else {
+                    // 翻倍后分数行
+                    ws[cellRef].s = cellStyle(finalFont(val));
                 }
             }
         }
@@ -655,6 +669,29 @@ function exportExcel() {
 
     XLSX.utils.book_append_sheet(wb, ws, "计分表");
     XLSX.writeFile(wb, "七怪五二三计分表.xlsx");
+}
+
+function exportImage() {
+    const tableEl = document.getElementById("summary-table");
+    if (!tableEl) return;
+
+    if (typeof html2canvas === "undefined") {
+        alertModal("图片导出库未加载，请检查网络连接。");
+        return;
+    }
+
+    html2canvas(tableEl, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+    }).then((canvas) => {
+        const link = document.createElement("a");
+        link.download = "七怪五二三计分表.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    }).catch(() => {
+        alertModal("图片导出失败，请重试。");
+    });
 }
 
 // 启动

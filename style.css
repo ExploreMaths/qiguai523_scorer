@@ -514,6 +514,16 @@ body {
     gap: 12px;
 }
 
+#summary-view .actions-card {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+#summary-view .actions-card .btn {
+    width: 100%;
+}
+
 /* 汇总表 */
 .summary-card {
     overflow-x: auto;
