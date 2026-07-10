@@ -130,6 +130,19 @@
         </div>
     </div>
 
+    <!-- 组合编辑器 -->
+    <div id="editor-overlay" class="modal-overlay" style="display:none;">
+        <div class="modal editor-modal">
+            <h2 class="editor-title" id="editor-title">编辑组合</h2>
+            <div class="player-list" id="editor-player-list"></div>
+            <button class="btn btn-outline btn-add" onclick="editorAddPlayer()">＋ 添加玩家</button>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closeEditor()">取消</button>
+                <button class="btn btn-primary" onclick="saveEditor()">保存</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="app.js"></script>

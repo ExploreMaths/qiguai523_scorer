@@ -234,12 +234,65 @@ function saveCurrentAsPreset() {
     doSavePreset(nameInput, name, currentPlayers);
 }
 
+let editingPresetName = null;
+
 function viewPreset(name) {
     const preset = presets.find((p) => p.name === name);
     if (!preset) return;
-    alertModal(
-        `组合「${preset.name}」（${preset.players.length}人）：${preset.players.join("、")}`
-    );
+    editingPresetName = name;
+    document.getElementById("editor-title").textContent = `编辑组合「${name}」`;
+    const list = document.getElementById("editor-player-list");
+    list.innerHTML = "";
+    preset.players.forEach((p) => editorAddPlayer(p));
+    document.getElementById("editor-overlay").style.display = "flex";
+}
+
+function editorAddPlayer(defaultName = "") {
+    const list = document.getElementById("editor-player-list");
+    const row = document.createElement("div");
+    row.className = "player-row";
+    row.innerHTML = `
+        <input type="text" placeholder="玩家姓名" value="${defaultName}">
+        <button class="btn btn-danger-outline" title="删除"><i class="fa-solid fa-trash-can"></i></button>
+    `;
+    row.querySelector("button").onclick = () => editorRemovePlayer(row);
+    list.appendChild(row);
+}
+
+function editorRemovePlayer(row) {
+    const list = document.getElementById("editor-player-list");
+    if (list.children.length <= 2) {
+        alertModal("至少需要两名玩家");
+        return;
+    }
+    row.remove();
+}
+
+function closeEditor() {
+    document.getElementById("editor-overlay").style.display = "none";
+    editingPresetName = null;
+}
+
+function saveEditor() {
+    const list = document.getElementById("editor-player-list");
+    const names = [...list.querySelectorAll("input")]
+        .map((i) => i.value.trim())
+        .filter(Boolean);
+    if (names.length < 2) {
+        alertModal("至少需要两名玩家");
+        return;
+    }
+    if (new Set(names).size !== names.length) {
+        alertModal("玩家姓名不能重复");
+        return;
+    }
+    const preset = presets.find((p) => p.name === editingPresetName);
+    if (preset) {
+        preset.players = names;
+        saveToStorage();
+        renderPresets();
+    }
+    closeEditor();
 }
 
 function setDefaultPreset(name) {

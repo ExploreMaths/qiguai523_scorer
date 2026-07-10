@@ -814,6 +814,24 @@ body {
     min-width: 90px;
 }
 
+/* 组合编辑器 */
+.editor-modal {
+    max-width: 520px;
+}
+
+.editor-title {
+    text-align: center;
+    font-size: 33px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 20px;
+}
+
+#editor-player-list {
+    max-height: 50vh;
+    overflow: auto;
+}
+
 /* 手机端拦截 / 平板横屏提示（按设备检测，而非宽度） */
 .mobile-block,
 .rotate-block {
