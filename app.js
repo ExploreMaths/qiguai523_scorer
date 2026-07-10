@@ -525,9 +525,10 @@ function buildSummaryTable() {
     const container = document.getElementById("summary-table");
     const totals = new Array(players.length).fill(0);
 
+    const dynWidth = `calc((100% - 138px) / ${players.length + 1})`;
     let html = `<table class="summary-table"><colgroup><col style="width:48px"><col style="width:90px">`;
-    players.forEach(() => (html += `<col>`));
-    html += `<col></colgroup><thead><tr><th colspan="2"></th>`;
+    players.forEach(() => (html += `<col style="width:${dynWidth}">`));
+    html += `<col style="width:${dynWidth}"></colgroup><thead><tr><th colspan="2"></th>`;
     players.forEach((p) => (html += `<th>${p}</th>`));
     html += `<th>倍数</th></tr></thead><tbody>`;
 
@@ -632,7 +633,7 @@ function exportExcel() {
     // Column widths (approximate px / 7)
     const colWidths = [{ wch: 7 }, { wch: 13 }];
     players.forEach(() => colWidths.push({ wch: 16 }));
-    colWidths.push({ wch: 12 });
+    colWidths.push({ wch: 16 });
     ws["!cols"] = colWidths;
 
     // Row heights (approximate px * 0.75)
