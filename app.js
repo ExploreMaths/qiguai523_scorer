@@ -707,7 +707,7 @@ function exportImage() {
     // 克隆一份完整表格用于导出，避免滚动位置与粘性表头影响
     const wrap = document.createElement("div");
     wrap.style.cssText =
-        "position:fixed;left:0;top:0;z-index:-1;background:#ffffff;overflow:visible;";
+        "position:fixed;left:-99999px;top:0;background:#ffffff;overflow:visible;pointer-events:none;";
     const clone = tableEl.cloneNode(true);
     clone.style.width = tableEl.offsetWidth + "px";
     wrap.style.width = tableEl.offsetWidth + "px";
