@@ -720,46 +720,44 @@ body {
     min-width: 90px;
 }
 
-/* 手机端拦截 */
+/* 手机端拦截（按设备检测，而非宽度） */
 .mobile-block {
     display: none;
 }
 
-@media (max-width: 768px) {
-    .app {
-        display: none;
-    }
+html.is-mobile .app {
+    display: none;
+}
 
-    .mobile-block {
-        display: flex;
-        position: fixed;
-        inset: 0;
-        background: var(--bg);
-        align-items: center;
-        justify-content: center;
-        padding: 32px;
-        text-align: center;
-        z-index: 2000;
-    }
+html.is-mobile .mobile-block {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    text-align: center;
+    z-index: 2000;
+}
 
-    .mobile-block-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: 32px;
-        max-width: 360px;
-    }
+html.is-mobile .mobile-block-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px;
+    max-width: 360px;
+}
 
-    .mobile-block-card h1 {
-        margin: 0 0 12px;
-        font-size: 42px;
-    }
+html.is-mobile .mobile-block-card h1 {
+    margin: 0 0 12px;
+    font-size: 42px;
+}
 
-    .mobile-block-card p {
-        margin: 0;
-        color: var(--text-secondary);
-        font-size: 21px;
-        line-height: 1.6;
-    }
+html.is-mobile .mobile-block-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 21px;
+    line-height: 1.6;
 }
