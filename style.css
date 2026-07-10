@@ -796,17 +796,10 @@ body {
     min-width: 90px;
 }
 
-/* 手机端拦截（按设备检测，而非宽度） */
-.mobile-block {
+/* 手机端拦截 / 平板横屏提示（按设备检测，而非宽度） */
+.mobile-block,
+.rotate-block {
     display: none;
-}
-
-html.is-mobile .app {
-    display: none;
-}
-
-html.is-mobile .mobile-block {
-    display: flex;
     position: fixed;
     inset: 0;
     background: var(--bg);
@@ -817,7 +810,21 @@ html.is-mobile .mobile-block {
     z-index: 2000;
 }
 
-html.is-mobile .mobile-block-card {
+html.is-phone .app {
+    display: none;
+}
+
+html.is-phone .mobile-block {
+    display: flex;
+}
+
+@media (orientation: portrait) {
+    html.is-tablet .rotate-block {
+        display: flex;
+    }
+}
+
+.mobile-block-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -826,12 +833,12 @@ html.is-mobile .mobile-block-card {
     max-width: 360px;
 }
 
-html.is-mobile .mobile-block-card h1 {
+.mobile-block-card h1 {
     margin: 0 0 12px;
     font-size: 42px;
 }
 
-html.is-mobile .mobile-block-card p {
+.mobile-block-card p {
     margin: 0;
     color: var(--text-secondary);
     font-size: 21px;
