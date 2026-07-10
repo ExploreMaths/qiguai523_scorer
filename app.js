@@ -151,6 +151,7 @@ function renderPresets() {
             <span onclick="applyPreset('${preset.name}')">${preset.name}</span>
             ${isDefault ? '<span class="default-mark"><i class="fa-solid fa-star"></i></span>' : ""}
             <span class="preset-actions">
+                <button onclick="event.stopPropagation(); viewPreset('${preset.name}')" title="查看"><i class="fa-solid fa-eye"></i></button>
                 <button class="default-toggle ${isDefault ? "is-default" : ""}" onclick="event.stopPropagation(); setDefaultPreset('${preset.name}')" title="${isDefault ? "取消默认" : "设为默认"}"><i class="fa-${isDefault ? "regular" : "solid"} fa-star"></i></button>
                 <button onclick="event.stopPropagation(); deletePreset('${preset.name}')" title="删除"><i class="fa-solid fa-trash-can"></i></button>
             </span>
@@ -223,6 +224,14 @@ function saveCurrentAsPreset() {
     }
 
     doSavePreset(nameInput, name, currentPlayers);
+}
+
+function viewPreset(name) {
+    const preset = presets.find((p) => p.name === name);
+    if (!preset) return;
+    alertModal(
+        `组合「${preset.name}」（${preset.players.length}人）：${preset.players.join("、")}`
+    );
 }
 
 function setDefaultPreset(name) {
