@@ -372,10 +372,6 @@ body {
     position: relative;
 }
 
-.preset-actions .default-toggle.is-default {
-    color: var(--warning);
-}
-
 .preset-actions .default-toggle.is-default::after {
     content: "";
     position: absolute;
