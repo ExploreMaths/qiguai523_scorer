@@ -704,16 +704,41 @@ function exportImage() {
         return;
     }
 
-    html2canvas(tableEl, {
+    // 克隆一份完整表格用于导出，避免滚动位置与粘性表头影响
+    const wrap = document.createElement("div");
+    wrap.style.cssText =
+        "position:fixed;left:0;top:0;z-index:-1;background:#ffffff;overflow:visible;";
+    const clone = tableEl.cloneNode(true);
+    clone.style.width = tableEl.offsetWidth + "px";
+    wrap.style.width = tableEl.offsetWidth + "px";
+    clone.querySelectorAll("thead th").forEach((th) => {
+        th.style.position = "static";
+    });
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+
+    const width = clone.scrollWidth;
+    const height = clone.scrollHeight;
+    const cleanup = () => wrap.remove();
+
+    html2canvas(clone, {
         backgroundColor: "#ffffff",
         scale: 2,
         useCORS: true,
+        width,
+        height,
+        windowWidth: width,
+        windowHeight: height,
+        scrollX: 0,
+        scrollY: 0,
     }).then((canvas) => {
+        cleanup();
         const link = document.createElement("a");
         link.download = "七怪五二三计分表.png";
         link.href = canvas.toDataURL("image/png");
         link.click();
     }).catch(() => {
+        cleanup();
         alertModal("图片导出失败，请重试。");
     });
 }
