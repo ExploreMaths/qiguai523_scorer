@@ -554,8 +554,11 @@ function buildSummaryTable() {
     });
 
     html += `<tr class="total-row">`;
-    html += `<td colspan="2">总计</td>`;
-    totals.forEach((t) => (html += `<td>${t}</td>`));
+    html += `<td colspan="2" class="total-label">总计</td>`;
+    totals.forEach((t) => {
+        const cls = t > 0 ? "positive" : t < 0 ? "negative" : "zero";
+        html += `<td class="${cls}">${t}</td>`;
+    });
     html += `</tr>`;
 
     html += `</tbody></table>`;
@@ -583,7 +586,11 @@ function exportExcel() {
     });
 
     const align = { horizontal: "center", vertical: "center", wrapText: false };
-    const cellStyle = (f) => ({ font: f, alignment: align });
+    const cellStyle = (f, bg) => {
+        const s = { font: f, alignment: align };
+        if (bg) s.fill = { patternType: "solid", fgColor: { rgb: bg } };
+        return s;
+    };
 
     const headerFont = font(15, true, "1E293B");
     const roundFont = font(18, true, "B45309");
@@ -648,14 +655,16 @@ function exportExcel() {
                 const isTotal = ws[cellRef].v === "总计";
                 ws[cellRef].s = cellStyle(isTotal ? totalLabelFont : roundFont);
             } else if (c === 1) {
-                ws[cellRef].s = cellStyle(labelFont);
+                const isTotalRow = r === data.length - 1;
+                ws[cellRef].s = cellStyle(isTotalRow ? totalLabelFont : labelFont);
             } else if (c === colCount - 1) {
                 ws[cellRef].s = cellStyle(mulFont);
             } else {
                 const val = ws[cellRef].v;
                 const isTotalRow = r === data.length - 1;
                 if (isTotalRow) {
-                    ws[cellRef].s = cellStyle(totalValueFont);
+                    const bg = val > 0 ? "D1FAE5" : val < 0 ? "FEE2E2" : "F1F5F9";
+                    ws[cellRef].s = cellStyle(totalValueFont, bg);
                 } else if (r % 2 === 0) {
                     // 原分数行
                     ws[cellRef].s = cellStyle(scoreFont);
