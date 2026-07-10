@@ -374,7 +374,7 @@ body {
 
 .score-th-empty,
 .score-td-label {
-    width: 90px;
+    width: 150px;
 }
 
 .score-th-player,
@@ -382,7 +382,7 @@ body {
 .score-td-final,
 .score-th-multiplier,
 .score-td-multiplier {
-    width: calc((100% - 90px) / 5);
+    width: calc((100% - 150px) / 5);
 }
 
 .score-th-player {
@@ -405,6 +405,7 @@ body {
     font-size: 21px;
     font-weight: 500;
     color: var(--text);
+    white-space: nowrap;
 }
 
 .score-td-multiplier {
@@ -569,7 +570,7 @@ body {
 }
 
 .summary-table tbody td:nth-child(2) {
-    width: 90px;
+    width: 150px;
 }
 
 .summary-table .round-cell {
@@ -581,6 +582,7 @@ body {
 .summary-table .row-label {
     font-weight: 500;
     color: #64748b;
+    white-space: nowrap;
 }
 
 .summary-table .final-cell {
@@ -653,7 +655,11 @@ body {
 
     .score-th-empty,
     .score-td-label {
-        width: 70px;
+        width: 120px;
+    }
+
+    .score-td-label {
+        font-size: 16px;
     }
 
     .score-th-player,
@@ -661,7 +667,7 @@ body {
     .score-td-final,
     .score-th-multiplier,
     .score-td-multiplier {
-        width: calc((100% - 70px) / 5);
+        width: calc((100% - 120px) / 5);
     }
 
     .multiplier-value {

@@ -530,8 +530,8 @@ function buildSummaryTable() {
     const container = document.getElementById("summary-table");
     const totals = new Array(players.length).fill(0);
 
-    const dynWidth = `calc((100% - 138px) / ${players.length + 1})`;
-    let html = `<table class="summary-table"><colgroup><col style="width:48px"><col style="width:90px">`;
+    const dynWidth = `calc((100% - 198px) / ${players.length + 1})`;
+    let html = `<table class="summary-table"><colgroup><col style="width:48px"><col style="width:150px">`;
     players.forEach(() => (html += `<col style="width:${dynWidth}">`));
     html += `<col style="width:${dynWidth}"></colgroup><thead><tr><th colspan="2"></th>`;
     players.forEach((p) => (html += `<th>${p}</th>`));
@@ -636,7 +636,7 @@ function exportExcel() {
     ws["!merges"] = merges;
 
     // Column widths (approximate px / 7)
-    const colWidths = [{ wch: 7 }, { wch: 13 }];
+    const colWidths = [{ wch: 7 }, { wch: 20 }];
     players.forEach(() => colWidths.push({ wch: 16 }));
     colWidths.push({ wch: 16 });
     ws["!cols"] = colWidths;
