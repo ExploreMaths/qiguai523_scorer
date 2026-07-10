@@ -94,32 +94,16 @@ function init() {
             loadRound(currentRoundIndex);
         }
     } else {
-        // 没有进行中的游戏，若设置了默认组合则直接进入该组合开始计分
-        let started = false;
+        // 没有进行中的游戏，若设置了默认组合则在玩家界面填入默认玩家
         if (defaultPreset) {
             const preset = presets.find((p) => p.name === defaultPreset);
             if (preset && preset.players.length >= 2) {
                 players = [...preset.players];
-                rounds = [
-                    {
-                        scores: new Array(players.length).fill(0),
-                        multiplier: 1,
-                        factors: [],
-                    },
-                ];
-                currentRoundIndex = 0;
-                currentView = "game-view";
-                buildScoreTable();
-                switchView("game-view");
-                loadRound(0);
-                started = true;
             }
         }
-        if (!started) {
-            currentView = "setup-view";
-            initSetup();
-            switchView("setup-view");
-        }
+        currentView = "setup-view";
+        initSetup();
+        switchView("setup-view");
     }
 }
 
