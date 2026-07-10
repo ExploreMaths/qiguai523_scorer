@@ -101,7 +101,7 @@ body {
     color: var(--primary);
     padding: 8px 18px;
     border-radius: var(--radius);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
     white-space: nowrap;
 }
@@ -120,7 +120,7 @@ body {
     gap: 6px;
     padding: 12px 20px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     border: none;
     border-radius: var(--radius);
     cursor: pointer;
