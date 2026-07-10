@@ -443,6 +443,13 @@ body {
     padding-bottom: 8px;
 }
 
+.score-table-inner thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: #ffffff;
+}
+
 .score-td-label {
     font-size: 21px;
     font-weight: 500;
@@ -610,6 +617,13 @@ body {
 .summary-table th {
     color: #1e293b;
     font-weight: 700;
+}
+
+.summary-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: #ffffff;
 }
 
 .summary-table tbody td:first-child {
