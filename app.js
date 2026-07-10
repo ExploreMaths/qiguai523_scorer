@@ -342,13 +342,19 @@ function removePlayerRow(btn) {
 function makeRowDraggable(row) {
     const handle = row.querySelector(".drag-handle");
     if (!handle) return;
-    handle.draggable = true;
-    handle.addEventListener("dragstart", (e) => {
+    handle.addEventListener("mousedown", () => {
+        row.draggable = true;
+    });
+    handle.addEventListener("mouseup", () => {
+        row.draggable = false;
+    });
+    row.addEventListener("dragstart", (e) => {
         draggingRow = row;
         row.classList.add("dragging");
         e.dataTransfer.effectAllowed = "move";
     });
-    handle.addEventListener("dragend", () => {
+    row.addEventListener("dragend", () => {
+        row.draggable = false;
         if (draggingRow) draggingRow.classList.remove("dragging");
         draggingRow = null;
     });
