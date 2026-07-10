@@ -88,8 +88,20 @@ body {
     flex: 0 0 auto;
 }
 
-#setup-view .setup-card,
-#game-view .score-card,
+#setup-view .setup-card {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#game-view .score-card {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 #summary-view .summary-card {
     flex: 1 1 auto;
     min-height: 0;
@@ -221,6 +233,8 @@ body {
 /* 设置玩家 */
 .setup-card {
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .setup-card h1 {
@@ -239,6 +253,9 @@ body {
     flex-direction: column;
     gap: 10px;
     margin-bottom: 16px;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
 }
 
 .player-row {
@@ -378,7 +395,9 @@ body {
 
 /* 计分表格 */
 .score-table {
-    overflow-x: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
 }
 
 .score-table-inner {
