@@ -7,10 +7,13 @@
     <script>
         (function () {
             var ua = navigator.userAgent || navigator.vendor || "";
+            var uaData = navigator.userAgentData;
             var isMobile =
+                (uaData && uaData.mobile === true) ||
                 /android|webos|iphone|ipod|blackberry|iemobile|opera mini|mobile/i.test(ua) ||
                 /ipad|tablet/i.test(ua) ||
-                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) ||
+                (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
             if (isMobile) {
                 document.documentElement.classList.add("is-mobile");
             }
