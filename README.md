@@ -21,6 +21,22 @@ python -m http.server 8080
 http://localhost:8080
 ```
 
+## 桌面版（PyQt6）
+
+依赖：
+
+```bash
+pip install -r requirements.txt
+```
+
+运行：
+
+```bash
+python desktop.py
+```
+
+桌面版复刻了网页版的全部功能（设置玩家、固定组合、计分、炸弹/撤销、换局、汇总、导出 Excel / 图片），数据保存在同目录的 `qiguai523_data.json`。
+
 ## 功能说明
 
 ### 1. 数据自动保存
