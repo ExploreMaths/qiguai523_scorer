@@ -813,6 +813,15 @@ function exportExcel() {
     XLSX.writeFile(wb, "七怪五二三计分表.xlsx");
 }
 
+function inlineComputedStyles(src, dst) {
+    dst.style.cssText = getComputedStyle(src).cssText;
+    const sKids = src.children;
+    const dKids = dst.children;
+    for (let i = 0; i < sKids.length; i++) {
+        inlineComputedStyles(sKids[i], dKids[i]);
+    }
+}
+
 function exportImage() {
     const tableEl = document.getElementById("summary-table");
     if (!tableEl) return;
@@ -827,8 +836,8 @@ function exportImage() {
     wrap.style.cssText =
         "position:fixed;left:-99999px;top:0;background:#ffffff;overflow:visible;pointer-events:none;";
     const clone = tableEl.cloneNode(true);
-    clone.style.width = tableEl.offsetWidth + "px";
-    wrap.style.width = tableEl.offsetWidth + "px";
+    // 把原表每个元素的计算样式（已解析 var()）内联到克隆，保证 html2canvas 正确还原
+    inlineComputedStyles(tableEl, clone);
     clone.querySelectorAll("thead th").forEach((th) => {
         th.style.position = "static";
     });
@@ -837,6 +846,7 @@ function exportImage() {
 
     const width = clone.scrollWidth;
     const height = clone.scrollHeight;
+    wrap.style.width = width + "px";
     const cleanup = () => wrap.remove();
 
     html2canvas(clone, {
