@@ -45,7 +45,10 @@
         <!-- 主计分界面 -->
         <div id="game-view" class="view">
             <header class="app-header">
-                <h1>七怪五二三 计分器</h1>
+                <div class="header-left">
+                    <h1>七怪五二三 计分器</h1>
+                    <span id="round-total" class="total-status ok">本局分数正确</span>
+                </div>
                 <div class="header-actions">
                     <button class="btn btn-sm btn-outline" onclick="openSetup()">设置玩家</button>
                     <button class="btn btn-sm btn-danger-outline" onclick="deleteCurrentRound()">删除该局</button>
@@ -65,10 +68,6 @@
                         <button class="btn btn-bomb" onclick="addBomb(32)">＋7张 ×32</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="card total-card">
-                <span id="round-total" class="total-status ok">本局分数正确</span>
             </div>
 
             <div class="card actions-card">

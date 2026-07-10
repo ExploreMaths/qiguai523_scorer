@@ -551,16 +551,17 @@ body {
     gap: 10px;
 }
 
-/* 合计 */
-.total-card {
-    text-align: center;
-    font-size: 27px;
-    color: var(--text);
+/* 状态提示（标题右侧） */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .total-status {
-    font-size: 33px;
+    font-size: 24px;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .total-status.ok {
