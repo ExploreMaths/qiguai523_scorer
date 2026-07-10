@@ -84,6 +84,14 @@ function init() {
         buildScoreTable();
 
         if (currentView === "setup-view") {
+            if (defaultPreset) {
+                const preset = presets.find((p) => p.name === defaultPreset);
+                if (preset && preset.players.length >= 2) {
+                    players = [...preset.players];
+                    rounds = [];
+                    currentRoundIndex = 0;
+                }
+            }
             initSetup();
             switchView("setup-view");
         } else if (currentView === "summary-view") {
