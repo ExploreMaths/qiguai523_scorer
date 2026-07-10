@@ -6,11 +6,11 @@ let defaultPreset = null;
 let currentView = "setup-view";
 
 const BOMB_TYPES = [
-    { label: "4张", factor: 2 },
-    { label: "5张", factor: 4 },
-    { label: "6张", factor: 8 },
-    { label: "7张", factor: 16 },
-    { label: "8张", factor: 32 },
+    { label: "3张", factor: 2 },
+    { label: "4张", factor: 4 },
+    { label: "5张", factor: 8 },
+    { label: "6张", factor: 16 },
+    { label: "7张", factor: 32 },
 ];
 
 const STORAGE_KEY = "qiguai523_data";
