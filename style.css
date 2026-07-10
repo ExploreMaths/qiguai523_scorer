@@ -448,6 +448,7 @@ body {
     top: 0;
     z-index: 3;
     background: #ffffff;
+    border-bottom: 2px solid var(--border);
 }
 
 .score-td-label {
@@ -624,6 +625,7 @@ body {
     top: 0;
     z-index: 3;
     background: #ffffff;
+    border-bottom: 2px solid var(--border);
 }
 
 .summary-table tbody td:first-child {
