@@ -465,14 +465,21 @@ function prevRound() {
 }
 
 function nextRound() {
-    if (currentRoundIndex === rounds.length - 1) {
+    const scoreTable = document.getElementById("score-table");
+    if (!scoreTable || scoreTable.children.length === 0) {
+        buildScoreTable();
+    }
+
+    if (currentRoundIndex >= rounds.length - 1) {
         rounds.push({
             scores: new Array(players.length).fill(0),
             multiplier: 1,
             factors: [],
         });
+        loadRound(rounds.length - 1);
+    } else {
+        loadRound(currentRoundIndex + 1);
     }
-    loadRound(currentRoundIndex + 1);
 }
 
 function isBlankRound(rd) {
