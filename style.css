@@ -195,8 +195,6 @@ body {
 
 /* 设置玩家 */
 .setup-card {
-    max-width: 480px;
-    margin: 80px auto 0;
     text-align: center;
 }
 
