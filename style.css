@@ -260,7 +260,29 @@ body {
 
 .player-row {
     display: flex;
+    align-items: center;
     gap: 10px;
+}
+
+.player-row.dragging {
+    opacity: 0.5;
+}
+
+.drag-handle {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    cursor: grab;
+    color: var(--text-secondary);
+    font-size: 22px;
+    user-select: none;
+    touch-action: none;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
 }
 
 .player-row input {

@@ -4,6 +4,7 @@ let currentRoundIndex = 0;
 let presets = [];
 let defaultPreset = null;
 let currentView = "setup-view";
+let draggingRow = null;
 
 const BOMB_TYPES = [
     { label: "3张", factor: 2 },
@@ -70,6 +71,8 @@ function confirmModal(message, onConfirm, onCancel) {
 }
 
 function init() {
+    enableListSorting(document.getElementById("player-list"));
+    enableListSorting(document.getElementById("editor-player-list"));
     const saved = loadFromStorage();
     if (saved) {
         presets = saved.presets || [];
@@ -252,10 +255,12 @@ function editorAddPlayer(defaultName = "") {
     const row = document.createElement("div");
     row.className = "player-row";
     row.innerHTML = `
+        <span class="drag-handle" title="拖动排序"><i class="fa-solid fa-grip-vertical"></i></span>
         <input type="text" placeholder="玩家姓名" value="${defaultName}">
         <button class="btn btn-danger-outline" title="删除"><i class="fa-solid fa-trash-can"></i></button>
     `;
     row.querySelector("button").onclick = () => editorRemovePlayer(row);
+    makeRowDraggable(row);
     list.appendChild(row);
 }
 
@@ -317,19 +322,50 @@ function addPlayerInput(defaultName = "") {
     const row = document.createElement("div");
     row.className = "player-row";
     row.innerHTML = `
+        <span class="drag-handle" title="拖动排序"><i class="fa-solid fa-grip-vertical"></i></span>
         <input type="text" placeholder="玩家姓名" value="${defaultName}">
         <button class="btn btn-danger-outline" onclick="removePlayerRow(this)" title="删除"><i class="fa-solid fa-trash-can"></i></button>
     `;
+    makeRowDraggable(row);
     list.appendChild(row);
 }
 
 function removePlayerRow(btn) {
-    const rows = document.querySelectorAll(".player-row");
-    if (rows.length <= 2) {
+    const list = btn.closest(".player-list") || document.getElementById("player-list");
+    if (list.children.length <= 2) {
         alertModal("至少需要两名玩家");
         return;
     }
     btn.parentElement.remove();
+}
+
+function makeRowDraggable(row) {
+    const handle = row.querySelector(".drag-handle");
+    if (!handle) return;
+    handle.draggable = true;
+    handle.addEventListener("dragstart", (e) => {
+        draggingRow = row;
+        row.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+    });
+    handle.addEventListener("dragend", () => {
+        if (draggingRow) draggingRow.classList.remove("dragging");
+        draggingRow = null;
+    });
+}
+
+function enableListSorting(listEl) {
+    if (!listEl) return;
+    listEl.addEventListener("dragover", (e) => {
+        if (!draggingRow) return;
+        e.preventDefault();
+        const target = e.target.closest(".player-row");
+        if (!target || target === draggingRow || target.parentElement !== listEl) return;
+        const rect = target.getBoundingClientRect();
+        const before = e.clientY < rect.top + rect.height / 2;
+        listEl.insertBefore(draggingRow, before ? target : target.nextSibling);
+    });
+    listEl.addEventListener("drop", (e) => e.preventDefault());
 }
 
 function openSetup() {
