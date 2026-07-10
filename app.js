@@ -414,7 +414,14 @@ function updateDisplay() {
     });
 
     document.getElementById("multiplier-value").textContent = `×${rd.multiplier}`;
-    document.getElementById("round-total").textContent = total;
+    const totalEl = document.getElementById("round-total");
+    if (total === 0) {
+        totalEl.textContent = "本局分数正确";
+        totalEl.className = "total-status ok";
+    } else {
+        totalEl.textContent = "本局分数错误";
+        totalEl.className = "total-status bad";
+    }
     saveToStorage();
 }
 

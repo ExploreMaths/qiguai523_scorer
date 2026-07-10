@@ -558,9 +558,17 @@ body {
     color: var(--text);
 }
 
-.total-card strong {
+.total-status {
     font-size: 33px;
-    margin-left: 8px;
+    font-weight: 700;
+}
+
+.total-status.ok {
+    color: var(--success-text);
+}
+
+.total-status.bad {
+    color: var(--error-text);
 }
 
 /* 操作区 */
