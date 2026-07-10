@@ -564,13 +564,11 @@ body {
     font-weight: 700;
 }
 
-.summary-table th:first-child,
-.summary-table td:first-child {
+.summary-table tbody td:first-child {
     width: 48px;
 }
 
-.summary-table th:nth-child(2),
-.summary-table td:nth-child(2) {
+.summary-table tbody td:nth-child(2) {
     width: 90px;
 }
 
