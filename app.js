@@ -518,7 +518,12 @@ function showSummary() {
 }
 
 function backToGame() {
+    const scoreTable = document.getElementById("score-table");
+    if (!scoreTable || scoreTable.children.length === 0) {
+        buildScoreTable();
+    }
     switchView("game-view");
+    loadRound(currentRoundIndex);
 }
 
 function buildSummaryTable() {
