@@ -704,10 +704,9 @@ function exportExcel() {
     const merges = [];
     const colCount = 3 + players.length;
 
-    const FONT_CN = "华文中宋";
-    const FONT_EN = "CMU Roman";
+    const FONT_NAME = "华文中宋";
     const font = (sz, bold, color) => ({
-        name: `${FONT_CN}, ${FONT_EN}`,
+        name: FONT_NAME,
         sz,
         bold: !!bold,
         color: color ? { rgb: color } : undefined,
