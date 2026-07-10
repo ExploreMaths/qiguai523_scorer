@@ -94,16 +94,32 @@ function init() {
             loadRound(currentRoundIndex);
         }
     } else {
-        // 没有进行中的游戏，尝试加载默认组合
+        // 没有进行中的游戏，若设置了默认组合则直接进入该组合开始计分
+        let started = false;
         if (defaultPreset) {
             const preset = presets.find((p) => p.name === defaultPreset);
             if (preset && preset.players.length >= 2) {
                 players = [...preset.players];
+                rounds = [
+                    {
+                        scores: new Array(players.length).fill(0),
+                        multiplier: 1,
+                        factors: [],
+                    },
+                ];
+                currentRoundIndex = 0;
+                currentView = "game-view";
+                buildScoreTable();
+                switchView("game-view");
+                loadRound(0);
+                started = true;
             }
         }
-        currentView = "setup-view";
-        initSetup();
-        switchView("setup-view");
+        if (!started) {
+            currentView = "setup-view";
+            initSetup();
+            switchView("setup-view");
+        }
     }
 }
 
@@ -151,7 +167,7 @@ function renderPresets() {
             <span onclick="applyPreset('${preset.name}')">${preset.name}</span>
             ${isDefault ? '<span class="default-mark"><i class="fa-solid fa-star"></i></span>' : ""}
             <span class="preset-actions">
-                <button onclick="event.stopPropagation(); setDefaultPreset('${preset.name}')" title="设为默认"><i class="fa-solid fa-star"></i></button>
+                <button class="default-toggle ${isDefault ? "is-default" : ""}" onclick="event.stopPropagation(); setDefaultPreset('${preset.name}')" title="${isDefault ? "取消默认" : "设为默认"}"><i class="fa-solid fa-star"></i></button>
                 <button onclick="event.stopPropagation(); deletePreset('${preset.name}')" title="删除"><i class="fa-solid fa-trash-can"></i></button>
             </span>
         `;
@@ -226,7 +242,7 @@ function saveCurrentAsPreset() {
 }
 
 function setDefaultPreset(name) {
-    defaultPreset = name;
+    defaultPreset = defaultPreset === name ? null : name;
     saveToStorage();
     renderPresets();
 }

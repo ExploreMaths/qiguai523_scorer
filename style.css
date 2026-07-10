@@ -368,6 +368,28 @@ body {
     background: var(--border);
 }
 
+.preset-actions .default-toggle {
+    position: relative;
+}
+
+.preset-actions .default-toggle.is-default {
+    color: var(--warning);
+}
+
+.preset-actions .default-toggle.is-default::after {
+    content: "";
+    position: absolute;
+    left: 18%;
+    top: 50%;
+    width: 64%;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    pointer-events: none;
+}
+
 .preset-add {
     display: flex;
     gap: 8px;
