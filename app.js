@@ -456,6 +456,8 @@ function loadRound(index) {
 
     updateDisplay();
     document.getElementById("prev-btn").disabled = index === 0;
+    document.getElementById("next-btn").textContent =
+        index === rounds.length - 1 ? "＋ 新一局" : "下一局 →";
 }
 
 function prevRound() {
