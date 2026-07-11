@@ -711,7 +711,7 @@ function exportExcel() {
     const colCount = 3 + players.length;
 
     const FONT_TEXT = "华文中宋";
-    const FONT_SCORE = "CMU Roman";
+    const FONT_SCORE = "LM Roman 12";
     const font = (sz, bold, color, name = FONT_TEXT) => ({
         name,
         sz,
@@ -727,7 +727,7 @@ function exportExcel() {
     };
 
     const headerFont = font(15, true, "FF1E293B");
-    const roundFont = font(18, true, "FFB45309");
+    const roundFont = font(18, true, "FFB45309", FONT_SCORE);
     const labelFont = font(15, false, "FF64748B");
     const scoreFont = font(15, false, "FF1E293B", FONT_SCORE);
     const finalFont = (val) => font(16, true, val > 0 ? "FF047857" : val < 0 ? "FFB91C1C" : "FF64748B", FONT_SCORE);
