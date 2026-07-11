@@ -799,11 +799,11 @@ function exportExcel() {
                 if (isTotalRow) {
                     const bg = val > 0 ? "FFD1FAE5" : val < 0 ? "FFFEE2E2" : "FFF1F5F9";
                     ws[cellRef].s = cellStyle(totalValueFont, bg);
-                } else if (r % 2 === 0) {
-                    // 原分数行
+                } else if (r % 2 !== 0) {
+                    // 原分数行（第1、3、5…局数据行）
                     ws[cellRef].s = cellStyle(scoreFont);
                 } else {
-                    // 翻倍后分数行
+                    // 翻倍后分数行（第2、4、6…局数据行）
                     ws[cellRef].s = cellStyle(finalFont(val));
                 }
             }
