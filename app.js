@@ -710,9 +710,10 @@ function exportExcel() {
     const merges = [];
     const colCount = 3 + players.length;
 
-    const FONT_NAME = "华文中宋";
-    const font = (sz, bold, color) => ({
-        name: FONT_NAME,
+    const FONT_TEXT = "华文中宋";
+    const FONT_SCORE = "CMU Roman";
+    const font = (sz, bold, color, name = FONT_TEXT) => ({
+        name,
         sz,
         bold: !!bold,
         color: color ? { rgb: color } : undefined,
@@ -728,11 +729,11 @@ function exportExcel() {
     const headerFont = font(15, true, "FF1E293B");
     const roundFont = font(18, true, "FFB45309");
     const labelFont = font(15, false, "FF64748B");
-    const scoreFont = font(15, false, "FF1E293B");
-    const finalFont = (val) => font(16, true, val > 0 ? "FF047857" : val < 0 ? "FFB91C1C" : "FF64748B");
-    const mulFont = font(18, true, "FF1D4ED8");
+    const scoreFont = font(15, false, "FF1E293B", FONT_SCORE);
+    const finalFont = (val) => font(16, true, val > 0 ? "FF047857" : val < 0 ? "FFB91C1C" : "FF64748B", FONT_SCORE);
+    const mulFont = font(18, true, "FF1D4ED8", FONT_SCORE);
     const totalLabelFont = font(18, true, "FF1E293B");
-    const totalValueFont = font(16, true, "FF1E293B");
+    const totalValueFont = font(16, true, "FF1E293B", FONT_SCORE);
 
     // Header
     const headerRow = ["", "", ...players, "倍数"];
