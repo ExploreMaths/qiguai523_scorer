@@ -810,6 +810,16 @@ function exportExcel() {
         }
     }
 
+    // 删除合并区域中被遮盖的空单元格，让工作表更稀疏
+    const mergeTopSet = new Set(merges.map((m) => XLSX.utils.encode_cell(m.s)));
+    Object.keys(ws).forEach((ref) => {
+        if (ref.startsWith("!")) return;
+        const cell = ws[ref];
+        if (cell && cell.v === "" && !mergeTopSet.has(ref)) {
+            delete ws[ref];
+        }
+    });
+
     XLSX.utils.book_append_sheet(wb, ws, "计分表");
     XLSX.writeFile(wb, "七怪五二三计分表.xlsx");
 }
