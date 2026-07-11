@@ -725,14 +725,14 @@ function exportExcel() {
         return s;
     };
 
-    const headerFont = font(15, true, "1E293B");
-    const roundFont = font(18, true, "B45309");
-    const labelFont = font(15, false, "64748B");
-    const scoreFont = font(15, false, "1E293B");
-    const finalFont = (val) => font(16, true, val > 0 ? "047857" : val < 0 ? "B91C1C" : "64748B");
-    const mulFont = font(18, true, "1D4ED8");
-    const totalLabelFont = font(18, true, "1E293B");
-    const totalValueFont = font(16, true, "1E293B");
+    const headerFont = font(15, true, "FF1E293B");
+    const roundFont = font(18, true, "FFB45309");
+    const labelFont = font(15, false, "FF64748B");
+    const scoreFont = font(15, false, "FF1E293B");
+    const finalFont = (val) => font(16, true, val > 0 ? "FF047857" : val < 0 ? "FFB91C1C" : "FF64748B");
+    const mulFont = font(18, true, "FF1D4ED8");
+    const totalLabelFont = font(18, true, "FF1E293B");
+    const totalValueFont = font(16, true, "FF1E293B");
 
     // Header
     const headerRow = ["", "", ...players, "倍数"];
@@ -796,7 +796,7 @@ function exportExcel() {
                 const val = ws[cellRef].v;
                 const isTotalRow = r === data.length - 1;
                 if (isTotalRow) {
-                    const bg = val > 0 ? "D1FAE5" : val < 0 ? "FEE2E2" : "F1F5F9";
+                    const bg = val > 0 ? "FFD1FAE5" : val < 0 ? "FFFEE2E2" : "FFF1F5F9";
                     ws[cellRef].s = cellStyle(totalValueFont, bg);
                 } else if (r % 2 === 0) {
                     // 原分数行
