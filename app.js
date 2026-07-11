@@ -882,8 +882,9 @@ function exportImage() {
     // 克隆一份完整表格用于导出，避免滚动位置与粘性表头影响
     const wrap = document.createElement("div");
     wrap.style.cssText =
-        "position:fixed;left:0;top:0;z-index:-1;background:#ffffff;overflow:visible;pointer-events:none;";
+        "position:fixed;left:0;top:0;width:0;height:0;overflow:hidden;pointer-events:none;background:#ffffff;";
     const clone = tableEl.cloneNode(true);
+    clone.style.cssText = "position:absolute;left:0;top:0;";
     // 把关键视觉样式内联到克隆，html2canvas 无需依赖外部 CSS 变量
     inlineVisualStyles(tableEl, clone);
     clone.querySelectorAll("thead th").forEach((th) => {
@@ -891,7 +892,6 @@ function exportImage() {
     });
     wrap.appendChild(clone);
     document.body.appendChild(wrap);
-    wrap.style.width = tableEl.offsetWidth + "px";
 
     const width = clone.scrollWidth;
     const height = clone.scrollHeight;
