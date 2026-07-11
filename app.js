@@ -813,12 +813,49 @@ function exportExcel() {
     XLSX.writeFile(wb, "七怪五二三计分表.xlsx");
 }
 
-function inlineComputedStyles(src, dst) {
-    dst.style.cssText = getComputedStyle(src).cssText;
+function inlineVisualStyles(src, dst) {
+    const cs = getComputedStyle(src);
+    const props = [
+        "color",
+        "background-color",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "font-style",
+        "line-height",
+        "text-align",
+        "vertical-align",
+        "white-space",
+        "border-top-width",
+        "border-top-style",
+        "border-top-color",
+        "border-right-width",
+        "border-right-style",
+        "border-right-color",
+        "border-bottom-width",
+        "border-bottom-style",
+        "border-bottom-color",
+        "border-left-width",
+        "border-left-style",
+        "border-left-color",
+        "padding-top",
+        "padding-right",
+        "padding-bottom",
+        "padding-left",
+        "box-shadow",
+    ];
+    props.forEach((p) => dst.style.setProperty(p, cs.getPropertyValue(p)));
+
+    if (src.tagName === "TABLE") {
+        dst.style.setProperty("width", cs.getPropertyValue("width"));
+        dst.style.setProperty("table-layout", cs.getPropertyValue("table-layout"));
+        dst.style.setProperty("border-collapse", cs.getPropertyValue("border-collapse"));
+    }
+
     const sKids = src.children;
     const dKids = dst.children;
     for (let i = 0; i < sKids.length; i++) {
-        inlineComputedStyles(sKids[i], dKids[i]);
+        inlineVisualStyles(sKids[i], dKids[i]);
     }
 }
 
@@ -836,8 +873,8 @@ function exportImage() {
     wrap.style.cssText =
         "position:fixed;left:-99999px;top:0;background:#ffffff;overflow:visible;pointer-events:none;";
     const clone = tableEl.cloneNode(true);
-    // 把原表每个元素的计算样式（已解析 var()）内联到克隆，保证 html2canvas 正确还原
-    inlineComputedStyles(tableEl, clone);
+    // 把关键视觉样式内联到克隆，html2canvas 无需依赖外部 CSS 变量
+    inlineVisualStyles(tableEl, clone);
     clone.querySelectorAll("thead th").forEach((th) => {
         th.style.position = "static";
     });
